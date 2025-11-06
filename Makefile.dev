@@ -1,0 +1,17 @@
+# Docker settings
+DOCKER_IMAGE ?= vmaf-video-quality
+DOCKER_CONTAINER ?= vmaf-container
+
+docker-build:
+	docker build -t $(DOCKER_IMAGE) .
+
+docker-up:
+	docker run -d --name $(DOCKER_CONTAINER) -v $(CURDIR):/src $(DOCKER_IMAGE)
+	@echo "Container started. Use 'make docker-exec' to enter the shell."
+
+docker-down:
+	docker stop $(DOCKER_CONTAINER)
+	docker rm $(DOCKER_CONTAINER)
+
+docker-exec:
+	docker exec -it $(DOCKER_CONTAINER) /bin/bash
